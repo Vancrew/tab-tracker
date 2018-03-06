@@ -4,7 +4,7 @@
     <v-flex xs6 offset-xs3>
       <div class="white elevation-2">
         <v-toolbar flat dense class="cyan" dark>
-          <v-toolbar-title>REGISTER</v-toolbar-title>
+          <v-toolbar-title>LOGIN</v-toolbar-title>
         </v-toolbar>
 
         <div class="pl-4 pr-4 pt-2 pb-2">
@@ -18,7 +18,6 @@
             <v-text-field
               label="Password"
               type="password"
-              name="password"
               v-model="password"
               autocomplete="new-password"
             ></v-text-field>
@@ -27,8 +26,8 @@
           <v-btn
             class="cyan"
             dark
-            @click="register">
-            Register
+            @click="login">
+            Login
           </v-btn>
         </div>
       </div>
@@ -47,14 +46,14 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
-        const response = await AuthenticationService.register({
+        const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
-        this.$store.dispacth('setToken', response.data.token)
-        this.$store.dispacth('setUser', response.data.user)
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
       } catch (error) {
         this.error = error.response.data.error
       }
