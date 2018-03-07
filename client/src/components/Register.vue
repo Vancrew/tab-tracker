@@ -2,63 +2,67 @@
   <v-layout column>
     <br>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2">
-        <v-toolbar flat dense class="cyan" dark>
-          <v-toolbar-title>REGISTER</v-toolbar-title>
-        </v-toolbar>
-
-        <div class="pl-4 pr-4 pt-2 pb-2">
-          <form
-            name="tab-tracker-form"
-            autocomplete="off">
-            <v-text-field
-              label="Email"
-              v-model="email"
-            ></v-text-field>
-            <v-text-field
-              label="Password"
-              type="password"
-              name="password"
-              v-model="password"
-              autocomplete="new-password"
-            ></v-text-field>
-          </form>
-          <div class="salah" v-html="error" />
-          <v-btn
-            class="cyan"
-            dark
-            @click="register">
-            Register
-          </v-btn>
-        </div>
-      </div>
+      <panel title="REGISTER">
+        <form
+          name="tab-tracker-form"
+          autocomplete="off">
+          <v-text-field
+            label="Email"
+            v-model="email"
+          ></v-text-field>
+          <v-text-field
+            label="Password"
+            type="password"
+            name="password"
+            v-model="password"
+            autocomplete="new-password"
+          ></v-text-field>
+        </form>
+        <div class="danger-alert" v-html="error" />
+        <!-- <div class="success-alert" v-html="success" /> -->
+        <v-btn
+          class="cyan"
+          dark
+          @click="register">
+          Register
+        </v-btn>
+      </panel>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import Panel from '@/components/Panel'
 export default {
   data () {
     return {
       email: '',
       password: '',
       error: null
+      // success: null
     }
   },
   methods: {
     async register () {
       try {
+        this.error = null
         const response = await AuthenticationService.register({
           email: this.email,
           password: this.password
         })
         this.$store.dispacth('setToken', response.data.token)
         this.$store.dispacth('setUser', response.data.user)
+        // this.success = 'Your Registration success'
       } catch (error) {
+        // this.success = null
         this.error = error.response.data.error
       }
+      // console.log(this.success)
     }
+  },
+  components: {
+    Panel
   }
   // watch: {
   //   email (value) {
@@ -75,7 +79,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.salah {
-  color: red;
-}
 </style>
