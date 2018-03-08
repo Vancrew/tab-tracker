@@ -75,7 +75,6 @@ export default {
   async mounted () {
     // do a request to the backend for all the songs
     this.songs = (await SongService.index()).data
-    console.log('songs', this.songs)
   }
 }
 </script>
