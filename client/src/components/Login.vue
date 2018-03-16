@@ -1,8 +1,7 @@
 <template>
-  <v-layout column>
-    <br>
+  <v-layout column class="mt-4">
     <v-flex xs6 offset-xs3>
-      <panel title="LOGIN">
+      <panel title="Login">
         <form
           name="tab-tracker-form"
           autocomplete="off">
@@ -31,7 +30,6 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
-import Panel from '@/components/Panel'
 export default {
   data () {
     return {
@@ -48,29 +46,22 @@ export default {
           email: this.email,
           password: this.password
         })
+        console.log('login 1')
         this.$store.dispatch('setToken', response.data.token)
+        console.log('login 2')
         this.$store.dispatch('setUser', response.data.user)
+        console.log('login 3')
+        this.$router.push({
+          name: 'songs'
+        })
       } catch (error) {
+        console.log('login error')
         this.error = error.response.data.error
       }
     }
-  },
-  components: {
-    Panel
   }
-  // watch: {
-  //   email (value) {
-  //     console.log('email has changed',value)
-  //   }
-  // },
-  // mounted () {
-  //   setTimeout(() => {
-  //     this.email = 'hello word'
-  //   }, 2000)
-  // }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

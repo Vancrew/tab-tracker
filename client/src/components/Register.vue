@@ -1,8 +1,7 @@
 <template>
-  <v-layout column>
-    <br>
+  <v-layout column class="mt-4">
     <v-flex xs6 offset-xs3>
-      <panel title="REGISTER">
+      <panel title="Register">
         <form
           name="tab-tracker-form"
           autocomplete="off">
@@ -13,13 +12,11 @@
           <v-text-field
             label="Password"
             type="password"
-            name="password"
             v-model="password"
             autocomplete="new-password"
           ></v-text-field>
         </form>
         <div class="danger-alert" v-html="error" />
-        <!-- <div class="success-alert" v-html="success" /> -->
         <v-btn
           class="cyan"
           dark
@@ -33,50 +30,34 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
-import Panel from '@/components/Panel'
+
 export default {
   data () {
     return {
       email: '',
       password: '',
       error: null
-      // success: null
     }
   },
   methods: {
     async register () {
       try {
-        this.error = null
         const response = await AuthenticationService.register({
           email: this.email,
           password: this.password
         })
-        this.$store.dispacth('setToken', response.data.token)
-        this.$store.dispacth('setUser', response.data.user)
-        // this.success = 'Your Registration success'
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'songs'
+        })
       } catch (error) {
-        // this.success = null
         this.error = error.response.data.error
       }
-      // console.log(this.success)
     }
-  },
-  components: {
-    Panel
   }
-  // watch: {
-  //   email (value) {
-  //     console.log('email has changed',value)
-  //   }
-  // },
-  // mounted () {
-  //   setTimeout(() => {
-  //     this.email = 'hello word'
-  //   }, 2000)
-  // }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
