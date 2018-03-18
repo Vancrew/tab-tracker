@@ -46,11 +46,8 @@ export default {
           email: this.email,
           password: this.password
         })
-        console.log('login 1')
         this.$store.dispatch('setToken', response.data.token)
-        console.log('login 2')
         this.$store.dispatch('setUser', response.data.user)
-        console.log('login 3')
         this.$router.push({
           name: 'songs'
         })
