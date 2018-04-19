@@ -1,43 +1,45 @@
 <template>
   <div id="app">
-    <v-app>
-      <page-header />
-
-      <v-content>
-        <v-container fluid>
-          <router-view></router-view>
-        </v-container>
-      </v-content>
-    </v-app>
+    <app-registration></app-registration>
+    <app-registrations @userUnregistered="userUnregistered"
+      :registrations="registrations"></app-registrations>
   </div>
 </template>
 
 <script>
-import PageHeader from '@/components/Header.vue'
+import Registration from './components/vuex/Registration.vue';
+import Registrations from './components/vuex/REgistrations.vue';
 
 export default {
-  name: 'App',
+  data () {
+    return {
+      
+    }
+  },
+  computed: {
+    unregisteredUsers () {
+      return this.users.filter((user) => {
+        return !user.registered;
+      });
+    }
+  },
+  methods: {
+    userUnregistered(registration) {
+      const user = this.users.find( user => {
+        return user.id == registration.userId;
+      });
+      user.registered = false;
+      this.registrations.splice(this.registrations.indexOf(registration), 1);
+    }
+  },
   components: {
-    PageHeader
+    appRegistration: Registration,
+    appRegistrations: Registrations
   }
+
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-.danger-alert {
-  color: red;
-}
-
-.success-alert {
-  color: green;
-}
 </style>
